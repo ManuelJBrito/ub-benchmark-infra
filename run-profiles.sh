@@ -11,15 +11,8 @@ ulimit -s unlimited
 unset CPPFLAGS
 unset CXXFLAGS
 
-if [ `lscpu | grep -ic arm` = 1 ]
-then
-	sudo cpupower frequency-set \
-		-g performance \
-		--min 1.00Ghz \
-		--max 1.00GHz
-	export NUM_CPU_CORES=80
-	export NUM_CPU_PHYSICAL_CORES=80
-fi
+export NUM_CPU_CORES=1
+export NUM_CPU_JOBS=1
 
 for p in $(grep -v '#' categorized-profiles.txt | grep -v '/build-')
 do
@@ -40,8 +33,8 @@ do
 	sh -c "$pts_command" 2>&1| tee -a $LOG_FILE
 done
 
-if [ `lscpu | grep -ic arm` = 1 ]
-then
-	unset NUM_CPU_PHYSICAL_CORES
-	unset NUM_CPU_CORES
-fi
+# if [ `lscpu | grep -ic arm` = 1 ]
+# then
+# 	unset NUM_CPU_PHYSICAL_CORES
+# 	unset NUM_CPU_CORES
+# fi
